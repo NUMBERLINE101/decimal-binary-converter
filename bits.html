@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Decimal ⇄ Binary Converter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: url("bits2.jpg") no-repeat center center fixed;
+      background-size: cover;
+      position: relative;
+      color: #fff;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.75); /* darker overlay */
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.6); /* transparent black */
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0, 255, 100, 0.6); /* neon glow */
+      backdrop-filter: blur(10px); /* glass effect */
+      width: 500px;
+      max-width: 95%;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: #00ff99;
+      text-shadow: 0 0 10px #00ff99;
+    }
+
+    .inputs {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .inputs input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      outline: none;
+      text-align: center;
+      font-size: 16px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #00ff99;
+    }
+
+    table {
+      margin: 0 auto;
+      border-collapse: collapse;
+      text-align: center;
+      table-layout: fixed;
+      width: 100%;
+      color: #fff;
+    }
+
+    th, td {
+      border: 1px solid #00ff99;
+      padding: 8px;
+      font-size: 16px;
+      width: 12.5%;
+    }
+
+    th {
+      background: rgba(0, 255, 153, 0.2);
+      color: #00ffcc;
+      text-shadow: 0 0 8px #00ffcc;
+    }
+
+    td {
+      background: rgba(0, 0, 0, 0.4);
+      font-weight: bold;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    td.active {
+  background: #00ff99;
+  color: #000;
+  text-shadow: 0 0 5px #00ff99, 0 0 10px #00ff99;
+  animation: pulse 1.2s infinite alternate;
+}
+
+@keyframes pulse {
+  from {
+    box-shadow: 0 0 5px #00ff99, 0 0 10px #00ff99;
+  }
+  to {
+    box-shadow: 0 0 15px #00ff99, 0 0 25px #00ff99;
+  }
+}
+
+    #result {
+      margin-top: 15px;
+      font-weight: bold;
+      font-size: 18px;
+      color: #00ffcc;
+      text-shadow: 0 0 8px #00ffcc;
+    }
+
+    #foot {
+      color: #00ff99;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Decimal ⇄ Binary Converter</h2>
+
+    <div class="inputs">
+      <input type="number" id="decimalInput" placeholder="Enter decimal (0–255)" min="0" max="255"/>
+      <input type="text" id="binaryInput" placeholder="Enter binary (8 bits)" maxlength="8"/>
+    </div>
+
+    <table>
+      <tr>
+        <th>128</th>
+        <th>64</th>
+        <th>32</th>
+        <th>16</th>
+        <th>8</th>
+        <th>4</th>
+        <th>2</th>
+        <th>1</th>
+      </tr>
+      <tr id="binaryRow">
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+      </tr>
+    </table>
+
+    <p id="result"></p>
+    <footer>
+      <p id="foot">MADE BY --- &copy 2025</p>
+    </footer>
+  </div>
+
+  <script>
+    const decimalInput = document.getElementById("decimalInput");
+    const binaryInput = document.getElementById("binaryInput");
+    const result = document.getElementById("result");
+    const cells = document.getElementById("binaryRow").children;
+
+    function updateTable(binary) {
+      let padded = binary.padStart(8, "0");
+      for (let i = 0; i < 8; i++) {
+        cells[i].innerText = padded[i];
+        cells[i].classList.toggle("active", padded[i] === "1");
+      }
+    }
+
+    decimalInput.addEventListener("input", () => {
+      let decimal = decimalInput.value;
+      if (decimal === "" || decimal < 0 || decimal > 255) {
+        result.innerText = "⚠️ Enter a number between 0 and 255.";
+        return;
+      }
+      let binary = Number(decimal).toString(2).padStart(8, "0");
+      binaryInput.value = binary;
+      updateTable(binary);
+      result.innerText = `Binary: ${binary}`;
+    });
+
+    binaryInput.addEventListener("input", () => {
+      let binary = binaryInput.value;
+      if (!/^[01]*$/.test(binary)) {
+        result.innerText = "⚠️ Only 0 and 1 allowed.";
+        return;
+      }
+      if (binary.length === 0) {
+        result.innerText = "";
+        updateTable("0");
+        decimalInput.value = "";
+        return;
+      }
+      let decimal = parseInt(binary, 2);
+      decimalInput.value = decimal;
+      updateTable(binary);
+      result.innerText = `Decimal: ${decimal}`;
+    });
+  </script>
+</body>
+</html>
