@@ -33,12 +33,6 @@ Built with **HTML**, **CSS**, and **JavaScript**, it features a futuristic neon-
 
 ---
 
-## ⚙️ Usage
 
-1. Clone or download this repository
-2. Open `index.html` in any modern web browser
-3. Start converting!
-
----
 
 
