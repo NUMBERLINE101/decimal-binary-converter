@@ -36,10 +36,6 @@ Built with **HTML**, **CSS**, and **JavaScript**, it features a futuristic neon-
 ## ⚙️ Usage
 
 1. Clone or download this repository
-
-   ```bash
-   git clone https://github.com/your-username/decimal-binary-converter.git
-   ```
 2. Open `index.html` in any modern web browser
 3. Start converting!
 
